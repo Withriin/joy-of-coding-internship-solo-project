@@ -3,8 +3,6 @@ import NavBar from "@/app/NavBar";
 
 export default function Home() {
   return (
-    <main>
-        <NavBar />
-    </main>
+    <div>Main</div>
   );
 }

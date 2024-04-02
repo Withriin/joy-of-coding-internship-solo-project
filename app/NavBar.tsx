@@ -8,14 +8,12 @@ import classnames from 'classnames';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import {
     HamburgerMenuIcon,
-    DotFilledIcon,
-    CheckIcon,
-    ChevronRightIcon,
 } from "@radix-ui/react-icons";
+import {useViewport} from "@/app/components/ViewPortContext";
 
 
 const NavBar = () => {
-    const [isMobile, setIsMobile] = useState(false);
+    const { isMobile} = useViewport();
     const currentPath = usePathname();
 
     const links = [
@@ -25,12 +23,6 @@ const NavBar = () => {
     ]
 
     useEffect(() => {
-        const updateMobileStatus = () => setIsMobile(window.innerWidth <= 600);
-        updateMobileStatus();
-
-        window.addEventListener('resize', updateMobileStatus);
-
-        return () => window.removeEventListener('resize', updateMobileStatus);
     }, []);
 
     return (
@@ -53,13 +45,12 @@ const NavBar = () => {
                     {links.map(link  =>
                         <DropdownMenu.Item
                             key={link.href}
-                            onSelect={() => {
-                                window.location.href = link.href;
-                            }}
                             className={`group text-[13px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none ${link.href === currentPath ? 'text-black' : 'text-amber-600 hover:text-amber-900'}`}
                             disabled={currentPath === link.href}
                         >
-                            {link.label}
+                            <Link href={link.href} passHref>
+                                {link.label}
+                            </Link>
                         </DropdownMenu.Item>
                     )}
                     </DropdownMenu.Content>
