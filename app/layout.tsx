@@ -3,6 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/app/NavBar";
 import {ViewportProvider} from "@/app/components/ViewPortContext";
+import '@radix-ui/themes/styles.css';
+import {Theme} from "@radix-ui/themes";
+import { ThemeProvider } from 'next-themes';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,8 +23,12 @@ export default function RootLayout({
       <ViewportProvider>
     <html lang="en">
       <body className={inter.className}>
+      <ThemeProvider attribute='class'>
+      <Theme accentColor="orange">
       <NavBar />
       <main>{children}</main>
+      </Theme>
+      </ThemeProvider>
       </body>
     </html>
       </ViewportProvider>
