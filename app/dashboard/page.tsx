@@ -1,15 +1,17 @@
 import React from 'react';
 import TaskCard from "@/app/components/TaskCard";
-import {Box, Card, Flex, Text} from "@radix-ui/themes";
-import {Avatar, AvatarImage} from "@radix-ui/react-avatar";
-import {AvatarIcon} from "@radix-ui/react-icons";
-
+import {useViewport} from "@/app/components/ViewPortContext";
 
 const DashboardPage = () => {
+
+
     return (
-        <div>
+        <div className='flex'>
             Dashboard Page
-            <TaskCard />
+            <TaskCard/>
+            <TaskCard/>
+            <TaskCard/>
+            <TaskCard/>
         </div>
     );
 };
