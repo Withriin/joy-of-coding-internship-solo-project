@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+model Task {
+  id             Int              @id @default(autoincrement())
+  title          String           @db.VarChar(100)
+  creation_date  DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  parentTaskId   Int?
+  parentTask     Task?            @relation("ParentChild", fields: [parentTaskId], references: [id], onDelete: SetNull)
+  subtasks       Task[]           @relation("ParentChild")
+  description    String?          @db.Text
+  userId         Int?
+  User           User?            @relation(fields: [userId], references: [id])
+  categories     Category[]       @relation("TaskCategories")
+  Status         TaskStatus?      @relation(fields: [statusId], references: [id])
+  statusId       Int?
+  Collaboration  Collaboration[]
+  TaskCategories TaskCategories[]
+}
+
+model User {
+  id            Int             @id @default(autoincrement())
+  Tasks         Task[]
+  Collaboration Collaboration[]
+}
+
+model Category {
+  id             Int              @id @default(autoincrement())
+  name           String
+  task           Task[]           @relation("TaskCategories")
+  TaskCategories TaskCategories[]
+}
+
+model TaskCategories {
+  taskId     Int
+  categoryId Int
+  task       Task     @relation(fields: [taskId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@id([taskId, categoryId])
+}
+
+// Collaboration junction table
+model TaskStatus {
+  id    Int    @id @default(autoincrement())
+  name  String
+  Tasks Task[]
+}
+
+model Collaboration {
+  taskId Int
+  userId Int
+  Task   Task @relation(fields: [taskId], references: [id])
+  User   User @relation(fields: [userId], references: [id])
+
+  @@id([taskId, userId])
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
