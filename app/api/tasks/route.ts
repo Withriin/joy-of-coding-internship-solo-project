@@ -13,7 +13,6 @@ const createTaskSchema = z.object({
 });
 
 export async function POST(request: NextRequest){
-    console.log(`api/tasks ${request}`)
     const body = await request.json();
     const validation = createTaskSchema.safeParse(body);
     if (!validation.success)
