@@ -4,6 +4,7 @@ import prisma from '@/prisma/client';
 
 const createTaskSchema = z.object({
     title: z.string().min(1, 'Title is required'). max(100),
+    userId: z.number(),
     // subtasks: z.array(z.string()),
     description: z.string().max(255),
     // category: z.string().max(100),
@@ -18,7 +19,7 @@ export async function POST(request: NextRequest){
     if (!validation.success)
         return NextResponse.json(validation.error.errors, {status: 404})
     const newTask = await prisma.task.create({
-        data: { title: body.title, description: body.description, statusId: body.status}
+        data: { title: body.title, userId: body.userId, description: body.description, statusId: body.status}
     });
 
     return NextResponse.json(newTask, {status: 201});

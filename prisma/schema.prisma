@@ -13,8 +13,8 @@ model Task {
   parentTask     Task?            @relation("ParentChild", fields: [parentTaskId], references: [id], onDelete: SetNull)
   subtasks       Task[]           @relation("ParentChild")
   description    String?          @db.Text
-  userId         Int?
-  User           User?            @relation(fields: [userId], references: [id])
+  userId         Int
+  User           User             @relation(fields: [userId], references: [id])
   categories     Category[]       @relation("TaskCategories")
   Status         TaskStatus?      @relation(fields: [statusId], references: [id])
   statusId       Int?
@@ -24,6 +24,7 @@ model Task {
 
 model User {
   id            Int             @id @default(autoincrement())
+  name          String
   Tasks         Task[]
   Collaboration Collaboration[]
 }
