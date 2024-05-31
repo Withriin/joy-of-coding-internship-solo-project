@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import { Task } from "@prisma/client";
 import TaskCard from "@/app/components/TaskCard";
 import { TaskCreation } from "@/app/components/TaskCreation";
@@ -7,11 +7,7 @@ import { TaskCreation } from "@/app/components/TaskCreation";
 export const TaskFactory = ({ userId }: { userId: number }) => {
     const [taskList, setTaskList] = useState<Task[]>([]);
 
-    useEffect(() => {
-        fetchTasks();
-    }, [userId]);
-
-    const fetchTasks = async () => {
+    const fetchTasks = useCallback(async () => {
         try {
             const response = await fetch(`/api/tasks?userId=${userId}`);
             if (response.ok) {
@@ -23,7 +19,11 @@ export const TaskFactory = ({ userId }: { userId: number }) => {
         } catch (error) {
             console.error("Failed to fetch tasks:", error);
         }
-    };
+    }, [userId]);
+
+    useEffect(() => {
+        fetchTasks();
+    }, [fetchTasks]);
 
     const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
         event.preventDefault();
