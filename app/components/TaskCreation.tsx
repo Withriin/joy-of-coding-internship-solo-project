@@ -1,12 +1,14 @@
 'use client';
 
-interface TaskCreationProps {
-    onSubmit: React.FormEventHandler<HTMLFormElement> | undefined
-}
+import React from "react";
 
 interface TaskCreationProps {
     onSubmit: React.FormEventHandler<HTMLFormElement> | undefined
 }
+
+// interface TaskCreationProps {
+//     onSubmit: React.FormEventHandler<HTMLFormElement> | undefined
+// }
 
 export const TaskCreation = ({onSubmit}: TaskCreationProps) => {
 
@@ -18,7 +20,7 @@ export const TaskCreation = ({onSubmit}: TaskCreationProps) => {
             <form className='space-y-3'
                   onSubmit={onSubmit}
             >
-                <div><span className={"fieldName"}>Title:</span><input name={"title"} type={"text"} className="title"/></div>
+                <div><span className={"fieldName"}>Title:</span><input name={"title"} type={"text"} className="title" required/></div>
                 <div><span className={"fieldName"}>Status:</span>
                     <select name={"statusId"} className="status">
                         {
@@ -38,7 +40,7 @@ export const TaskCreation = ({onSubmit}: TaskCreationProps) => {
                         }
                     </select>
                 </div>
-                <input type={"submit"}>Save</input>
+                <button type={"submit"}>Save</button>
             </form>
         </div>
     )
