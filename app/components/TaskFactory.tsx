@@ -1,6 +1,7 @@
 'use client';
 import {useEffect, useState} from "react";
 import {Task} from "@prisma/client";
+import TaskCard from "@/app/components/TaskCard";
 
 export const TaskFactory = ({userId}:{userId:number}) => {
     const [taskList,setTaskList] = useState<Task[]>([]);
@@ -19,10 +20,8 @@ export const TaskFactory = ({userId}:{userId:number}) => {
 
     return (
         <>
-            {taskList.map(({id, title}) => (
-                <div key={id}>
-                    {title}
-                </div>
+            {taskList.map((task) => (
+                <TaskCard key={task.id} task={task}/>
             ))}
         </>
     );

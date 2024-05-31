@@ -2,22 +2,14 @@
 import React, {useState, useEffect} from 'react';
 import {Box, Card, Flex, ScrollArea, Text} from "@radix-ui/themes";
 import {Avatar} from "@radix-ui/react-avatar";
+import {Task} from "@prisma/client";
 
-const TaskCard = () => {
-    const [tasks, setTasks] = useState([]);
+const TaskCard = ({task}:{task:Task}) => {
+    const [stateTask, setStateTask] = useState<Task>(task);
 
     useEffect(() => {
-        const fetchTasks = async () => {
-            const response = await fetch('/api/tasks?userId=1');
-            if(response.ok){
-                const data = await response.json();
-                setTasks(data);
-            }else{
-                console.error('failed to fetch tasks', response.statusText);
-            }
-        };
-        fetchTasks();
     }, []);
+
     return (
         <div>
             <Box>
@@ -25,11 +17,10 @@ const TaskCard = () => {
                     <Flex>
                         <Box maxWidth='100px' maxHeight='30px'>
                             <ScrollArea>
-                                {tasks.map(({id, title}) => (
-                                    <Text key={id} as='div' size='2' weight='bold'>
-                                        {title}
-                                    </Text>
-                                ))}
+                                <Text key={stateTask.id} as='div' size='2' weight='bold'>
+                                    {stateTask.title}
+                                </Text>
+                                <Text>{stateTask.description}</Text>
                             </ScrollArea>
                         </Box>
                     </Flex>
