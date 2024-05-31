@@ -1,5 +1,5 @@
 import React from 'react';
-import TaskCard from "@/app/components/TaskCard";
+import {TaskFactory} from "@/app/components/TaskFactory";
 import {useViewport} from "@/app/components/ViewPortContext";
 
 const DashboardPage = () => {
@@ -8,10 +8,7 @@ const DashboardPage = () => {
     return (
         <div className='flex'>
             Dashboard Page
-            <TaskCard/>
-            <TaskCard/>
-            <TaskCard/>
-            <TaskCard/>
+            <TaskFactory userId={1}></TaskFactory>
         </div>
     );
 };
