@@ -20,7 +20,7 @@ const TaskCard = ({task}:{task:Task}) => {
                                 <Text key={stateTask.id} as='div' size='2' weight='bold'>
                                     {stateTask.title}
                                 </Text>
-                                <Text>{stateTask.description}</Text>
+                                <Text>{stateTask. description}</Text>
                             </ScrollArea>
                         </Box>
                     </Flex>
