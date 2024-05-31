@@ -4,6 +4,8 @@ import { Task } from "@prisma/client";
 import TaskCard from "@/app/components/TaskCard";
 import { TaskCreation } from "@/app/components/TaskCreation";
 
+
+
 export const TaskFactory = ({ userId }: { userId: number }) => {
     const [taskList, setTaskList] = useState<Task[]>([]);
 
@@ -22,7 +24,7 @@ export const TaskFactory = ({ userId }: { userId: number }) => {
     }, [userId]);
 
     useEffect(() => {
-        fetchTasks();
+        fetchTasks().catch(error => console.error("Error fetching tasks:", error));
     }, [fetchTasks]);
 
     const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
@@ -38,7 +40,7 @@ export const TaskFactory = ({ userId }: { userId: number }) => {
 
         try {
             await createTask(taskForm);
-            fetchTasks(); // Refresh the task list after creating a new task
+            await fetchTasks(); // Refresh the task list after creating a new task
         } catch (error) {
             console.error("Failed to create task:", error);
         }
