@@ -1,8 +1,15 @@
-import React from 'react';
+'use client'
+import React, {useState, useEffect} from 'react';
 import {Box, Card, Flex, ScrollArea, Text} from "@radix-ui/themes";
 import {Avatar} from "@radix-ui/react-avatar";
+import {Task} from "@prisma/client";
 
-const TaskCard = () => {
+const TaskCard = ({task}:{task:Task}) => {
+    const [stateTask, setStateTask] = useState<Task>(task);
+
+    useEffect(() => {
+    }, []);
+
     return (
         <div>
             <Box>
@@ -10,12 +17,10 @@ const TaskCard = () => {
                     <Flex>
                         <Box maxWidth='100px' maxHeight='30px'>
                             <ScrollArea>
-                            <Text as='div' size='2' weight='bold'>
-                                TEST
-                                {'\n'}Now testing scrollbar interaction
-                                Now testing scrollbar interaction
-                                Now testing scrollbar interaction
-                            </Text>
+                                <Text key={stateTask.id} as='div' size='2' weight='bold'>
+                                    {stateTask.title}
+                                </Text>
+                                <Text>{stateTask. description}</Text>
                             </ScrollArea>
                         </Box>
                     </Flex>
