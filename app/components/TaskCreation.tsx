@@ -12,7 +12,7 @@ interface TaskCreationProps {
 
 export const TaskCreation = ({onSubmit}: TaskCreationProps) => {
 
-    const statusList = [0,1,2,3,4];
+    const statusList = [1,2,3,4];
     const categoryList = ["A","B","C","D"];
 
     return (
