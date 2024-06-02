@@ -6,6 +6,7 @@ import {ViewportProvider} from "@/app/components/ViewPortContext";
 import '@radix-ui/themes/styles.css';
 import {Theme} from "@radix-ui/themes";
 import { ThemeProvider } from 'next-themes';
+import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 

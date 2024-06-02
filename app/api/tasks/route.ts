@@ -2,7 +2,6 @@ import {NextRequest, NextResponse} from "next/server";
 import {z} from 'zod';
 import prisma from '@/prisma/client';
 import {validationSchemas} from "@/app/validationSchemas";
-import {NextApiRequest} from "next";
 
 const getTasksByUserSchema = z.object({
     userId: z.number()

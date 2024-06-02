@@ -1,13 +1,15 @@
-'use client'
+
 import React, {useState, useEffect} from 'react';
 import {Box, Card, Flex, ScrollArea, Text} from "@radix-ui/themes";
 import {Task} from "@prisma/client";
 import StatusDropdown from "@/app/components/StatusDropdown";
+import axios from "axios";
 
 interface TaskProps{
     task: Task;
+    statusIds: number[];
 }
-const TaskCard = ({task}: TaskProps) => {
+const TaskCard = ({task, statusIds}: TaskProps) => {
     const [stateTask, setStateTask] = useState<Task>(task);
 
     const handleStatusChange = (statusId: number) => {
@@ -19,12 +21,12 @@ const TaskCard = ({task}: TaskProps) => {
             <Box>
                 <Card size='1'>
                     <Flex>
-                        <Box maxWidth='300px' maxHeight='300px'>
+                        <Box className='inline-block' maxWidth='300px' maxHeight='300px'>
                             <ScrollArea>
                                 <Text key={stateTask.id} as='div' size='2' weight='bold'>
                                     {stateTask.title}
                                 </Text>
-                                <StatusDropdown id={stateTask.statusId} onChange={handleStatusChange}/>
+                                <StatusDropdown id={stateTask.statusId} statusIds={statusIds} onChange={handleStatusChange}/>
                                 <Text>{stateTask. description}</Text>
                             </ScrollArea>
                         </Box>

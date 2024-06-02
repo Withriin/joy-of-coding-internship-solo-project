@@ -9,6 +9,7 @@ model Task {
   title          String           @db.VarChar(100)
   creation_date  DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
+  due_date       DateTime?
   parentTaskId   Int?
   parentTask     Task?            @relation("ParentChild", fields: [parentTaskId], references: [id], onDelete: SetNull)
   subtasks       Task[]           @relation("ParentChild")
@@ -27,11 +28,15 @@ model User {
   name          String
   Tasks         Task[]
   Collaboration Collaboration[]
+  TaskStatus    TaskStatus[]
+  Category      Category[]
 }
 
 model Category {
   id             Int              @id @default(autoincrement())
   name           String
+  userId         Int
+  user           User             @relation(fields: [userId], references: [id])
   task           Task[]           @relation("TaskCategories")
   TaskCategories TaskCategories[]
 }
@@ -47,9 +52,11 @@ model TaskCategories {
 
 // Collaboration junction table
 model TaskStatus {
-  id    Int    @id @default(autoincrement())
-  name  String
-  Tasks Task[]
+  id     Int    @id @default(autoincrement())
+  name   String
+  Tasks  Task[]
+  userId Int
+  User   User   @relation(fields: [userId], references: [id])
 }
 
 model Collaboration {

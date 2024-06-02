@@ -3,16 +3,12 @@
 import React from "react";
 
 interface TaskCreationProps {
-    onSubmit: React.FormEventHandler<HTMLFormElement> | undefined
+    onSubmit: React.FormEventHandler<HTMLFormElement> | undefined;
+    statusIds: number[];
 }
 
-// interface TaskCreationProps {
-//     onSubmit: React.FormEventHandler<HTMLFormElement> | undefined
-// }
+export const TaskCreation = ({onSubmit, statusIds}: TaskCreationProps) => {
 
-export const TaskCreation = ({onSubmit}: TaskCreationProps) => {
-
-    const statusList = [1,2,3,4];
     const categoryList = ["A","B","C","D"];
 
     return (
@@ -24,7 +20,7 @@ export const TaskCreation = ({onSubmit}: TaskCreationProps) => {
                 <div><span className={"fieldName"}>Status:</span>
                     <select name={"statusId"} className="status">
                         {
-                            statusList.map((i: number) =>
+                            statusIds.map((i: number) =>
                                 <option key={i} value={i}>{i}</option>
                             )
                         }

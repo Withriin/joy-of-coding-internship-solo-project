@@ -3,11 +3,14 @@ import React, {useCallback, useEffect, useState} from "react";
 import { Task } from "@prisma/client";
 import TaskCard from "@/app/components/TaskCard";
 import { TaskCreation } from "@/app/components/TaskCreation";
+import axios from "axios";
+
 
 
 
 export const TaskFactory = ({ userId }: { userId: number }) => {
     const [taskList, setTaskList] = useState<Task[]>([]);
+    const [statusIds, setStatusIds] = useState<number[]>([]);
 
     const fetchTasks = useCallback(async () => {
         try {
@@ -23,9 +26,24 @@ export const TaskFactory = ({ userId }: { userId: number }) => {
         }
     }, [userId]);
 
+    const fetchStatusIds = useCallback(async () =>{
+        try{
+            const response = await fetch(`/api/status?userId=${userId}`);
+            if (response.ok){
+                const statuses = await response.json();
+                setStatusIds(statuses.map((status: {id: number}) => status.id));
+            }else{
+                console.error("Failed to fetch status IDs");
+            }
+        }catch(error){
+            console.error("Failed to fetch status IDs:", error);
+        }
+    }, [userId]);
+
     useEffect(() => {
         fetchTasks().catch(error => console.error("Error fetching tasks:", error));
-    }, [fetchTasks]);
+        fetchStatusIds().catch(error => console.error("Error fetching status IDs:", error));
+    }, [fetchTasks, fetchStatusIds]);
 
     const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
         event.preventDefault();
@@ -62,9 +80,9 @@ export const TaskFactory = ({ userId }: { userId: number }) => {
     return (
         <>
             {taskList.map((task) => (
-                <TaskCard key={task.id} task={task} />
+                <TaskCard key={task.id} task={task} statusIds={statusIds} />
             ))}
-            <TaskCreation onSubmit={handleFormSubmit} />
+            <TaskCreation onSubmit={handleFormSubmit} statusIds={statusIds} />
         </>
     );
 };
