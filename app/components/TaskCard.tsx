@@ -10,7 +10,10 @@ interface TaskProps{
     statusIds: number[];
 }
 const TaskCard = ({task, statusIds}: TaskProps) => {
-    const [stateTask, setStateTask] = useState<Task>(task);
+    const [stateTask, setStateTask] = useState<Task>({
+        ...task,
+        due_date: task.due_date ? new Date(task.due_date) : null,
+});
 
     const handleStatusChange = (statusId: number) => {
         setStateTask(prevTask => ({...prevTask, statusId}));
@@ -27,7 +30,13 @@ const TaskCard = ({task, statusIds}: TaskProps) => {
                                     {stateTask.title}
                                 </Text>
                                 <StatusDropdown id={stateTask.statusId} statusIds={statusIds} onChange={handleStatusChange}/>
-                                <Text>{stateTask. description}</Text>
+                                <Text>{stateTask.description}</Text>
+                                <Text>
+                                    {stateTask.due_date
+                                        ? new Date(stateTask.due_date).toDateString()
+                                        : 'No due date'
+                                    }
+                                </Text>
                             </ScrollArea>
                         </Box>
                     </Flex>
