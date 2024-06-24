@@ -3,7 +3,6 @@ import React, {useState, useEffect} from 'react';
 import {Box, Card, Flex, ScrollArea, Text} from "@radix-ui/themes";
 import {Task} from "@prisma/client";
 import StatusDropdown from "@/app/components/StatusDropdown";
-import axios from "axios";
 
 interface TaskProps{
     task: Task;
@@ -34,7 +33,7 @@ const TaskCard = ({task, statusIds}: TaskProps) => {
                                 <Text>
                                     {stateTask.due_date
                                         ? new Date(stateTask.due_date).toDateString()
-                                        : 'No due date'
+                                        : ''
                                     }
                                 </Text>
                             </ScrollArea>

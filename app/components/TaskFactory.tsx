@@ -1,9 +1,10 @@
 'use client';
 import React, {useCallback, useEffect, useState} from "react";
-import { Task } from "@prisma/client";
+import {Prisma, Task} from "@prisma/client";
 import TaskCard from "@/app/components/TaskCard";
 import { TaskCreation } from "@/app/components/TaskCreation";
 import axios from "axios";
+import DateTimeFilter = Prisma.DateTimeFilter;
 
 
 
@@ -48,13 +49,31 @@ export const TaskFactory = ({ userId }: { userId: number }) => {
     const handleFormSubmit: React.FormEventHandler<HTMLFormElement> = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const taskForm = {
+
+        const dueDate = formData.get('dueDate') as string | null;
+        const dueTime = formData.get('dueTime') as string | null;
+
+        let dueDateTime: Date | null = null;
+
+        if(dueDate){
+            if (dueTime) {
+                dueDateTime = new Date(`${dueDate}T${dueTime}:00`);
+            } else {
+                dueDateTime = new Date(dueDate);
+            }
+        }
+
+        const taskForm: any = {
             title: formData.get('title') as string,
             description: formData.get('description') as string,
             statusId: parseInt(formData.get('statusId') as string, 10),
             category: formData.get('category') as string,
-            userId: userId
+            userId: userId,
         };
+
+        if (dueDateTime){
+            taskForm.due_date = dueDateTime;
+        }
 
         try {
             await createTask(taskForm);

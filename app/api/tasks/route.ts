@@ -18,9 +18,19 @@ export async function POST(request: NextRequest){
         title: body.title,
         userId: body.userId,
     };
+
     if(body.description !== undefined) data.description = body.description;
     if(body.statusId != undefined) data.statusId = body.statusId;
-    if(body.due_date !== undefined) data.due_date = new Date(body.due_date);
+
+    if(body.due_date)
+    {
+        const dueDate = new Date(body.due_date);
+        if(!isNaN(dueDate.getTime())){
+            data.due_date = dueDate;
+        }else{
+            return NextResponse.json({error: "Invalid due_date format"}, {status: 400});
+        }
+    }
 
     try{
         const newTask = await prisma.task.create({data});

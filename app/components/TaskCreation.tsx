@@ -16,8 +16,13 @@ export const TaskCreation = ({onSubmit, statusIds}: TaskCreationProps) => {
             <form className='space-y-3'
                   onSubmit={onSubmit}
             >
-                <div><span className={"fieldName"}>Title:</span><input name={"title"} type={"text"} className="title" required/></div>
-                <div><span className={"fieldName"}>Status:</span>
+                <div>
+                    <span className={"fieldName"}>Title:</span>
+                    <input name={"title"} type={"text"} className="title" required/>
+                </div>
+                <div>
+                    <span className={"fieldName"}>Status:
+                    </span>
                     <select name={"statusId"} className="status">
                         {
                             statusIds.map((i: number) =>
@@ -26,8 +31,17 @@ export const TaskCreation = ({onSubmit, statusIds}: TaskCreationProps) => {
                         }
                     </select>
                 </div>
-                <div><span className={"fieldName"}>Description:</span><textarea name={"description"} className="description"/></div>
-                <div><span className={"fieldName"}>Category:</span>
+                <div>
+                    <span className={"fieldName"}>Description:</span>
+                    <textarea name={"description"} className="description"/>
+                </div>
+                <div>
+                    <span className={"fieldName"}>Due Date: </span>
+                    <input name={"dueDate"} type={"date"} className="dueDate"/>
+                    <input name={"dueTime"} type={"time"} className="dueTime"/>
+                </div>
+                <div>
+                    <span className={"fieldName"}>Category:</span>
                     <select name={"category"} className="category">
                         {
                             categoryList.map((i: string) =>
@@ -39,9 +53,8 @@ export const TaskCreation = ({onSubmit, statusIds}: TaskCreationProps) => {
                 <button type={"submit"}>Save</button>
             </form>
         </div>
-    )
-
-}
+    );
+};
 
 
 
